@@ -1,0 +1,122 @@
+[
+  {
+    "ContainingType": "Task_Manager_Backend.Controllers.EmployeeController",
+    "Method": "AddEmployee",
+    "RelativePath": "addEmployee",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employee",
+        "Type": "Task_Manager_Backend.Data.Employee",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Task_Manager_Backend.Controllers.StatusController",
+    "Method": "AddStatus",
+    "RelativePath": "addStatus",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "Task_Manager_Backend.Data.Status",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Task_Manager_Backend.Controllers.TagController",
+    "Method": "AddTag",
+    "RelativePath": "addTag",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tag",
+        "Type": "Task_Manager_Backend.Data.Tag",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Task_Manager_Backend.Controllers.TaskController",
+    "Method": "AddTask",
+    "RelativePath": "addTask",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "task",
+        "Type": "Task_Manager_Backend.Data.Tasks",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Task_Manager_Backend.Controllers.EmployeeController",
+    "Method": "GetAllEmployees",
+    "RelativePath": "getemployees",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Task_Manager_Backend.Controllers.StatusController",
+    "Method": "GetAllStatus",
+    "RelativePath": "getstatus",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Task_Manager_Backend.Controllers.TagController",
+    "Method": "GetAllTags",
+    "RelativePath": "getTags",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Task_Manager_Backend.Controllers.TaskController",
+    "Method": "GetAllTasks",
+    "RelativePath": "getTasks",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Task_Manager_Backend.Controllers.StatusController",
+    "Method": "UpdateStatus",
+    "RelativePath": "updatestatus",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateStatusDTO",
+        "Type": "Task_Manager_Backend.Data.UpdateStatusDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
