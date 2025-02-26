@@ -7,6 +7,6 @@ namespace Task_Manager_Backend.Data
         [Key]
         public int Status_Id { get; set; }
         public string Status_Name { get; set; }
-     //   public ICollection<TaskStatusMapping> TaskStatuses { get; set; }
+      /*  public ICollection<TaskStatusMapping> TaskStatuses { get; set; }*/
     }
 }

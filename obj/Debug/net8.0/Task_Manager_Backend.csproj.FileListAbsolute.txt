@@ -169,3 +169,4 @@ H:\Entity Framework core\Task_Manager_Backend\obj\Debug\net8.0\ref\Task_Manager_
 H:\Entity Framework core\Task_Manager_Backend\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
 H:\Entity Framework core\Task_Manager_Backend\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
 H:\Entity Framework core\Task_Manager_Backend\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
+H:\Entity Framework core\Task_Manager_Backend\obj\Debug\net8.0\Task_Manager_Backend.sourcelink.json
