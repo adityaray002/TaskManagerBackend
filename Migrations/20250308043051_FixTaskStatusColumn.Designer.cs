@@ -12,8 +12,8 @@ using Task_Manager_Backend.Data;
 namespace Task_Manager_Backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250226183252_initDb")]
-    partial class initDb
+    [Migration("20250308043051_FixTaskStatusColumn")]
+    partial class FixTaskStatusColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,6 +65,8 @@ namespace Task_Manager_Backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmpId");
+
                     b.HasIndex("TasksTask_Id");
 
                     b.ToTable("EmployeeTaskMappings");
@@ -104,7 +106,7 @@ namespace Task_Manager_Backend.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("Task_Manager_Backend.Data.TaskStatusMapping", b =>
+            modelBuilder.Entity("Task_Manager_Backend.Data.TaskStatuses", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -112,20 +114,13 @@ namespace Task_Manager_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TaskId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TasksTask_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("Status_Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TasksTask_Id");
-
-                    b.ToTable("TaskStatusMappings");
+                    b.ToTable("TaskStatuses");
                 });
 
             modelBuilder.Entity("Task_Manager_Backend.Data.TaskTagMapping", b =>
@@ -147,6 +142,8 @@ namespace Task_Manager_Backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TagId");
+
                     b.HasIndex("TasksTask_Id");
 
                     b.ToTable("TaskTagMappings");
@@ -163,41 +160,64 @@ namespace Task_Manager_Backend.Migrations
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Task_Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Task_Id");
 
+                    b.HasIndex("StatusId");
+
                     b.ToTable("Taskss");
                 });
 
             modelBuilder.Entity("Task_Manager_Backend.Data.EmployeeTaskMapping", b =>
                 {
+                    b.HasOne("Task_Manager_Backend.Data.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmpId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Task_Manager_Backend.Data.Tasks", null)
                         .WithMany("EmployeeTasks")
                         .HasForeignKey("TasksTask_Id");
-                });
 
-            modelBuilder.Entity("Task_Manager_Backend.Data.TaskStatusMapping", b =>
-                {
-                    b.HasOne("Task_Manager_Backend.Data.Tasks", null)
-                        .WithMany("TaskStatuses")
-                        .HasForeignKey("TasksTask_Id");
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("Task_Manager_Backend.Data.TaskTagMapping", b =>
                 {
+                    b.HasOne("Task_Manager_Backend.Data.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Task_Manager_Backend.Data.Tasks", null)
                         .WithMany("TaskTags")
                         .HasForeignKey("TasksTask_Id");
+
+                    b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("Task_Manager_Backend.Data.Tasks", b =>
+                {
+                    b.HasOne("Task_Manager_Backend.Data.Status", "TaskStatus")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TaskStatus");
                 });
 
             modelBuilder.Entity("Task_Manager_Backend.Data.Tasks", b =>
                 {
                     b.Navigation("EmployeeTasks");
-
-                    b.Navigation("TaskStatuses");
 
                     b.Navigation("TaskTags");
                 });

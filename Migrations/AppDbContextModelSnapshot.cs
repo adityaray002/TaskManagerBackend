@@ -103,7 +103,7 @@ namespace Task_Manager_Backend.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("Task_Manager_Backend.Data.TaskStatusMapping", b =>
+            modelBuilder.Entity("Task_Manager_Backend.Data.TaskStatuses", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -111,22 +111,13 @@ namespace Task_Manager_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TaskId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TasksTask_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("Status_Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StatusId");
-
-                    b.HasIndex("TasksTask_Id");
-
-                    b.ToTable("TaskStatusMappings");
+                    b.ToTable("TaskStatuses");
                 });
 
             modelBuilder.Entity("Task_Manager_Backend.Data.TaskTagMapping", b =>
@@ -166,11 +157,16 @@ namespace Task_Manager_Backend.Migrations
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Task_Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Task_Id");
+
+                    b.HasIndex("StatusId");
 
                     b.ToTable("Taskss");
                 });
@@ -190,21 +186,6 @@ namespace Task_Manager_Backend.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("Task_Manager_Backend.Data.TaskStatusMapping", b =>
-                {
-                    b.HasOne("Task_Manager_Backend.Data.Status", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Task_Manager_Backend.Data.Tasks", null)
-                        .WithMany("TaskStatuses")
-                        .HasForeignKey("TasksTask_Id");
-
-                    b.Navigation("Status");
-                });
-
             modelBuilder.Entity("Task_Manager_Backend.Data.TaskTagMapping", b =>
                 {
                     b.HasOne("Task_Manager_Backend.Data.Tag", "Tag")
@@ -222,9 +203,18 @@ namespace Task_Manager_Backend.Migrations
 
             modelBuilder.Entity("Task_Manager_Backend.Data.Tasks", b =>
                 {
-                    b.Navigation("EmployeeTasks");
+                    b.HasOne("Task_Manager_Backend.Data.Status", "TaskStatus")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("TaskStatuses");
+                    b.Navigation("TaskStatus");
+                });
+
+            modelBuilder.Entity("Task_Manager_Backend.Data.Tasks", b =>
+                {
+                    b.Navigation("EmployeeTasks");
 
                     b.Navigation("TaskTags");
                 });

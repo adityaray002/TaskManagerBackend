@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Task_Manager_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class initDb : Migration
+    public partial class FixTaskStatusColumn : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,17 +52,37 @@ namespace Task_Manager_Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TaskStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Status_Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskStatuses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Taskss",
                 columns: table => new
                 {
                     Task_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Task_Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StatusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Taskss", x => x.Task_Id);
+                    table.ForeignKey(
+                        name: "FK_Taskss_Statuses_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "Statuses",
+                        principalColumn: "Status_Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,27 +99,13 @@ namespace Task_Manager_Backend.Migrations
                 {
                     table.PrimaryKey("PK_EmployeeTaskMappings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmployeeTaskMappings_Taskss_TasksTask_Id",
-                        column: x => x.TasksTask_Id,
-                        principalTable: "Taskss",
-                        principalColumn: "Task_Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TaskStatusMappings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TaskId = table.Column<int>(type: "int", nullable: false),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
-                    TasksTask_Id = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TaskStatusMappings", x => x.Id);
+                        name: "FK_EmployeeTaskMappings_Employees_EmpId",
+                        column: x => x.EmpId,
+                        principalTable: "Employees",
+                        principalColumn: "Emp_Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TaskStatusMappings_Taskss_TasksTask_Id",
+                        name: "FK_EmployeeTaskMappings_Taskss_TasksTask_Id",
                         column: x => x.TasksTask_Id,
                         principalTable: "Taskss",
                         principalColumn: "Task_Id");
@@ -119,6 +125,12 @@ namespace Task_Manager_Backend.Migrations
                 {
                     table.PrimaryKey("PK_TaskTagMappings", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_TaskTagMappings_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
+                        principalColumn: "Tag_Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_TaskTagMappings_Taskss_TasksTask_Id",
                         column: x => x.TasksTask_Id,
                         principalTable: "Taskss",
@@ -126,14 +138,24 @@ namespace Task_Manager_Backend.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_EmployeeTaskMappings_EmpId",
+                table: "EmployeeTaskMappings",
+                column: "EmpId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EmployeeTaskMappings_TasksTask_Id",
                 table: "EmployeeTaskMappings",
                 column: "TasksTask_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskStatusMappings_TasksTask_Id",
-                table: "TaskStatusMappings",
-                column: "TasksTask_Id");
+                name: "IX_Taskss_StatusId",
+                table: "Taskss",
+                column: "StatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaskTagMappings_TagId",
+                table: "TaskTagMappings",
+                column: "TagId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TaskTagMappings_TasksTask_Id",
@@ -145,25 +167,25 @@ namespace Task_Manager_Backend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Employees");
-
-            migrationBuilder.DropTable(
                 name: "EmployeeTaskMappings");
 
             migrationBuilder.DropTable(
-                name: "Statuses");
-
-            migrationBuilder.DropTable(
-                name: "Tags");
-
-            migrationBuilder.DropTable(
-                name: "TaskStatusMappings");
+                name: "TaskStatuses");
 
             migrationBuilder.DropTable(
                 name: "TaskTagMappings");
 
             migrationBuilder.DropTable(
+                name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
+
+            migrationBuilder.DropTable(
                 name: "Taskss");
+
+            migrationBuilder.DropTable(
+                name: "Statuses");
         }
     }
 }

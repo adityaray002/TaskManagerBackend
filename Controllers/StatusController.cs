@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using Task_Manager_Backend.Data;
 using Task_Manager_Backend.Services;
 
@@ -38,7 +40,7 @@ namespace Task_Manager_Backend.Controllers
                 return BadRequest("Invalid request data.");
             }
 
-            var status = await statusServices.UpdateStatus(updateStatusDTO.TaskId, updateStatusDTO.NewStatusId);
+            var status = await statusServices.UpdateStatus(updateStatusDTO);
 
             if (status == null)
             {
@@ -47,6 +49,32 @@ namespace Task_Manager_Backend.Controllers
 
             return Ok(status);
         }
+
+/*        [HttpPut("updateStatus/{taskId}/{newStatusId}")]
+        public async Task<IActionResult> UpdateStatus(int taskId, int newStatusId)
+        {
+            var taskStatus = await appDbContext.TaskStatusMappings
+                .Where(ts => ts.TaskId == taskId)
+                .Include(ts => ts.Status) // Load Status entity
+                .FirstOrDefaultAsync();
+
+            if (taskStatus == null)
+            {
+                return NotFound($"Task with ID {taskId} not found.");
+            }
+
+            taskStatus.StatusId = newStatusId;
+            await appDbContext.SaveChangesAsync();
+
+            // Fetch the updated task status
+            var updatedTaskStatus = await appDbContext.TaskStatusMappings
+                .Where(ts => ts.TaskId == taskId)
+                .Include(ts => ts.Status)
+                .FirstOrDefaultAsync();
+
+            return Ok(new { message = "Task status updated successfully!", updatedTaskStatus });
+        }
+*/
 
     }
 }

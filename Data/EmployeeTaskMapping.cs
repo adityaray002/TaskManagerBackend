@@ -7,8 +7,10 @@ namespace Task_Manager_Backend.Data
     public class EmployeeTaskMapping
     {
         [Key]
-        public int Id { get; set; }  
+        public int Id { get; set; }
+       
         public int TaskId { get; set; }
+        
         public int EmpId { get; set; }
 
         //[ForeignKey("TaskId")]

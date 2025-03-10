@@ -104,6 +104,38 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Task_Manager_Backend.Controllers.TaskController",
+    "Method": "getTasksById",
+    "RelativePath": "getTasksById/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Task_Manager_Backend.Controllers.TaskController",
+    "Method": "UpdateTask",
+    "RelativePath": "update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updatedTask",
+        "Type": "Task_Manager_Backend.Data.Tasks",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Task_Manager_Backend.Controllers.StatusController",
     "Method": "UpdateStatus",
     "RelativePath": "updatestatus",

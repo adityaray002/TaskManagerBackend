@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Threading.Tasks;
 using Task_Manager_Backend.Data;
 
 namespace Task_Manager_Backend.Services
@@ -30,22 +32,36 @@ namespace Task_Manager_Backend.Services
 
         }
 
-        public async Task<IResult> UpdateStatus(int taskId,int newStatusId)
-        {
-            var taskStatus = await appDbContext.TaskStatusMappings
-       .Where(ts => ts.TaskId == taskId)
-       .FirstOrDefaultAsync();
 
-            if (taskStatus == null)
+        public async Task<IResult> UpdateStatus([FromBody] UpdateStatusDTO request)
+        {
+            var task = await appDbContext.Taskss
+                .FirstOrDefaultAsync(t => t.Task_Id == request.TaskId);
+
+            if (task == null)
             {
-                return Results.NotFound($"Task with ID {taskId} not found.");
+                return Results.NotFound("Task not found");
             }
 
-            taskStatus.StatusId = newStatusId;
+            // 🔹 Check if the provided StatusId exists in the database
+            var statusExists = await appDbContext.Statuses.AnyAsync(s => s.Status_Id == request.NewStatusId);
+            if (!statusExists)
+            {
+                return Results.BadRequest("Invalid status ID");
+            }
+
+            // 🔹 Update the task's status correctly
+            task.StatusId = request.NewStatusId;
+
             await appDbContext.SaveChangesAsync();
-
-            return Results.Ok(taskStatus);
-
+            return Results.Ok(new { task.Task_Id, task.StatusId });
         }
+
+
+
+
+
+
+
     }
 }

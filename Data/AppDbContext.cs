@@ -12,6 +12,15 @@ namespace Task_Manager_Backend.Data
         public DbSet<Status> Statuses { get; set; }
         public DbSet<EmployeeTaskMapping> EmployeeTaskMappings { get; set; }
         public DbSet<TaskTagMapping> TaskTagMappings { get; set; }
-        public DbSet<TaskStatusMapping> TaskStatusMappings { get; set; }
+
+        public DbSet<TaskStatuses> TaskStatuses { get; set; }
+
+
+     
+
+
+
+
+
     }
 }

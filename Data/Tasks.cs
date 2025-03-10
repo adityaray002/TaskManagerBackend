@@ -13,8 +13,11 @@ namespace Task_Manager_Backend.Data
         public ICollection<EmployeeTaskMapping> EmployeeTasks { get; set; }
      
         public ICollection<TaskTagMapping> TaskTags { get; set; }
-        
-        public ICollection<TaskStatusMapping> TaskStatuses { get; set; }
+
+        // 🔹 Foreign Key for Status
+        public int StatusId { get; set; }
+       
+        public Status TaskStatus { get; set; }
 
     }
 }
